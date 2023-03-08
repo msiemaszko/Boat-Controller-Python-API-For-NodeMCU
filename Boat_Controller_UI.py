@@ -1,10 +1,11 @@
 #Boat Controller User Interface for University Project that will fnd application in automation of a boat control via following API.
 #This project was write by Filip Zdebel @ www.ACEEngineering.uk with use of examples from Github in customtkinter library.
+#Code Version: Version 4 of the API 
+#Version Date: 08 March 2023
 
 import customtkinter
 import time
 import requests
-import random
 
 customtkinter.set_appearance_mode("Dark")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
