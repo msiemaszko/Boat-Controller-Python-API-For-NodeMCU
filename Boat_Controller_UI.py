@@ -12,27 +12,31 @@ customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "gre
 ###List of variables:
 ip_address = ""
 html_code = ""
+connected = 0
 
 wait = 0
 wait_str = ""
 
-motor_1_speed = 200
+
+display_motor_1_speed = "0"
+display_motor_2_speed = "0"
+motor_1_speed = 3
 motor_1_speed_string = "Motor 1 Speed: "
-motor_2_speed = 200
+motor_2_speed = 3
 motor_2_speed_string = "Motor 2 Speed: "
-motor_1_2_speed = 200
+motor_1_2_speed = 3
 motor_1_2_speed_string = "Motor 1 and 2 Speed: "
 
 delay = 0
 delay_ms = 0
 delay_remaining = 0
 
-gps_latitude = 0
+gps_latitude = "0.00000"
 gps_latitude_str = "Latitude: "
-gps_longitude = 0
+gps_longitude = "0.00000"
 gps_longitude_str = "Longitude: "
-gps_heading_str = "Heading: "
-gps_heading = "180 deg"
+gps_heading_str = "Course: "
+gps_heading = "0 deg"
 
 command_str = "Command: "
 current_command = ""
@@ -55,22 +59,32 @@ send_command_turn_left = "4"
 send_command_stop = "5"
 send_command_turn_right = "6"
 send_command_reverse = "8"
-send_command_motor_1_speed_100 = "10"
-send_command_motor_1_speed_150 = "11"
-send_command_motor_1_speed_200 = "12"
-send_command_motor_1_speed_250 = "13"
-send_command_motor_1_speed_300 = "14"
-send_command_motor_2_speed_100 = "15"
-send_command_motor_2_speed_150 = "16"
-send_command_motor_2_speed_200 = "17"
-send_command_motor_2_speed_250 = "18"
-send_command_motor_2_speed_300 = "19"
-send_command_motor_1_2_speed_100 = "20"
-send_command_motor_1_2_speed_150 = "21"
-send_command_motor_1_2_speed_200 = "22"
-send_command_motor_1_2_speed_250 = "23"
-send_command_motor_1_2_speed_300 = "24"
+send_command_motor_1_speed_1 = "10"
+send_command_motor_1_speed_2 = "11"
+send_command_motor_1_speed_3 = "12"
+send_command_motor_1_speed_4 = "13"
+send_command_motor_1_speed_5 = "14"
+send_command_motor_2_speed_1 = "15"
+send_command_motor_2_speed_2 = "16"
+send_command_motor_2_speed_3 = "17"
+send_command_motor_2_speed_4 = "18"
+send_command_motor_2_speed_5 = "19"
+send_command_motor_1_2_speed_1 = "20"
+send_command_motor_1_2_speed_2 = "21"
+send_command_motor_1_2_speed_3 = "22"
+send_command_motor_1_2_speed_4 = "23"
+send_command_motor_1_2_speed_5 = "24"
 
+send_command_request_motor_1_speed = "28"
+send_command_request_motor_2_speed = "29"
+
+send_command_request_latitude = "30"
+send_command_request_longditude = "31"
+send_command_request_speed = "32"
+send_command_request_curse = "33"
+send_command_request_no_of_satelites = "34"
+send_command_request_gps_date = "35"
+send_command_request_gps_time = "36"
 
 class App(customtkinter.CTk):
     def __init__(self):
@@ -150,21 +164,21 @@ class App(customtkinter.CTk):
         self.automatic_label_3.grid(row=6, column=2, columnspan = 2, padx=10, pady=0)
         self.automatic_button_motor_1_speed = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Motor 1 speed", command=self.automatic_command_motor_1_speed)
         self.automatic_button_motor_1_speed.grid(row=7, column=1, padx=10, pady=10)
-        self.slider_1 = customtkinter.CTkSlider(self.mode_tabview.tab("Automatic"), from_=100, to=300, number_of_steps=4, command=self.slider_1_command)
+        self.slider_1 = customtkinter.CTkSlider(self.mode_tabview.tab("Automatic"), from_=1, to=5, number_of_steps=4, command=self.slider_1_command)
         self.slider_1.grid(row=7, column=2, columnspan = 2, padx=(10, 10), pady=(10, 10), sticky="ew")
         
         self.automatic_label_4 = customtkinter.CTkLabel(self.mode_tabview.tab("Automatic"), text=("Motor 2 speed set to: " + str(motor_2_speed)))
         self.automatic_label_4.grid(row=8, column=2, columnspan = 2, padx=10, pady=0)
         self.automatic_button_motor_2_speed = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Motor 2 speed", command=self.automatic_command_motor_2_speed)
         self.automatic_button_motor_2_speed.grid(row=9, column=1, padx=10, pady=10)
-        self.slider_2 = customtkinter.CTkSlider(self.mode_tabview.tab("Automatic"), from_=100, to=300, number_of_steps=4, command=self.slider_2_command)
+        self.slider_2 = customtkinter.CTkSlider(self.mode_tabview.tab("Automatic"), from_=1, to=5, number_of_steps=4, command=self.slider_2_command)
         self.slider_2.grid(row=9, column=2, columnspan = 2, padx=(10, 10), pady=(10, 10), sticky="ew")
 
         self.automatic_label_5 = customtkinter.CTkLabel(self.mode_tabview.tab("Automatic"), text=("Motor 1&2 speed set to: " + str(motor_1_2_speed)))
         self.automatic_label_5.grid(row=10, column=2, columnspan = 2, padx=10, pady=0)
         self.automatic_button_motor_1_2_speed = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Motor 1&2 speed", command=self.automatic_command_motor_1_2_speed)
         self.automatic_button_motor_1_2_speed.grid(row=11, column=1, padx=10, pady=10)
-        self.slider_3 = customtkinter.CTkSlider(self.mode_tabview.tab("Automatic"), from_=100, to=300, number_of_steps=4, command=self.slider_3_command)
+        self.slider_3 = customtkinter.CTkSlider(self.mode_tabview.tab("Automatic"), from_=1, to=5, number_of_steps=4, command=self.slider_3_command)
         self.slider_3.grid(row=11, column=2, columnspan = 2, padx=(10, 10), pady=(10, 10), sticky="ew")
 
         self.automatic_wait_button = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Wait XXXX ms", command=self.automatic_command_wait)
@@ -192,12 +206,12 @@ class App(customtkinter.CTk):
         self.label_outputs.grid(row = 0, column = 0 , padx=(55,55), pady=10, sticky="")
         self.label_m1_speed_str = customtkinter.CTkLabel(self.sidebar_2_frame, text=motor_1_speed_string)
         self.label_m1_speed_str.grid(row=1, column=0, padx=10, pady=10, sticky="")
-        self.label_m1_speed = customtkinter.CTkLabel(self.sidebar_2_frame, text=motor_1_speed)
+        self.label_m1_speed = customtkinter.CTkLabel(self.sidebar_2_frame, text=display_motor_1_speed)
         self.label_m1_speed.grid(row=2, column=0,padx=10, pady=10,sticky="")
 
         self.label_m2_speed_str = customtkinter.CTkLabel(self.sidebar_2_frame, text=motor_2_speed_string)
         self.label_m2_speed_str.grid(row=4,column=0, padx=10, pady=10, sticky="")
-        self.label_m2_speed = customtkinter.CTkLabel(self.sidebar_2_frame, text=motor_2_speed)
+        self.label_m2_speed = customtkinter.CTkLabel(self.sidebar_2_frame, text=display_motor_2_speed)
         self.label_m2_speed.grid(row=5, column=0, padx=10, pady=10, sticky="")
 
         self.label_gps_latitude_str = customtkinter.CTkLabel(self.sidebar_2_frame, text=gps_latitude_str)
@@ -219,6 +233,9 @@ class App(customtkinter.CTk):
         self.label_current_command_str.grid(row = 13, column = 0, padx=10, pady=10, sticky="nsew")
         self.label_delay_reianing = customtkinter.CTkLabel(self.sidebar_2_frame, text=("Command time left: " + str(delay_remaining)))
         self.label_delay_reianing.grid(row=14, column=0, padx=10, pady=10, sticky="")
+
+        if connected == 1:
+            self.update_outputs(current_command, html_code, delay_remaining)
 
 
     def open_input_dialog_event(self):
@@ -246,21 +263,24 @@ class App(customtkinter.CTk):
             self.connect_button = customtkinter.CTkButton(self.sidebar_frame, text="Connected", fg_color= "green", command=self.connect)
             self.connect_button.grid(row=4, column=0, padx=20, pady=10)
             print("Server connected")
+            connected = 1
         except requests.exceptions.Timeout:
             print("The request timed out")
             self.connect_button = customtkinter.CTkButton(self.sidebar_frame, text="Not Connect", fg_color= "red", command=self.connect)
             self.connect_button.grid(row=4, column=0, padx=20, pady=10)
+            connected = 0
         except requests.exceptions.RequestException as e:
             print("An error occurred:", e)
             self.connect_button = customtkinter.CTkButton(self.sidebar_frame, text="Not Connect", fg_color= "red", command=self.connect)
             self.connect_button.grid(row=4, column=0, padx=20, pady=10)
+            connected = 0
         return(ip_address)
 
     def run_program(self):
         #self.destroy()
         #self.__init__()
         ip_address = "http://" + str(self.ip_address_entry.get())
-        urlend = "/boat?a="
+        urlend = "/command?a="
         url = ip_address + urlend
         command = ""
         payload = {}
@@ -313,8 +333,6 @@ class App(customtkinter.CTk):
                     if force_stop_program == 1:
                         y = refresh_rate
                     time.sleep(0.1)
-                    response = requests.request("POST", ip_address, headers=headers,data=payload)
-                    html_code = response.text
                     y = y + 1
                     delay_remaining = delay_ms - (y * 100)
                     self.update_outputs(current_command, html_code, delay_remaining)
@@ -322,16 +340,16 @@ class App(customtkinter.CTk):
             elif command_list[x] == command_motor_1_speed:
                 #current_command = command_motor_1_speed
                 speed = int(command_list[x+1])
-                if speed == 100:
-                    command = send_command_motor_1_speed_100
-                elif speed == 150:
-                    command = send_command_motor_1_speed_150
-                elif speed == 200:
-                    command = send_command_motor_1_speed_200
-                elif speed == 250:
-                    command = send_command_motor_1_speed_250
-                elif speed == 300:
-                    command = send_command_motor_1_speed_300
+                if speed == 1:
+                    command = send_command_motor_1_speed_1
+                elif speed == 2:
+                    command = send_command_motor_1_speed_2
+                elif speed == 3:
+                    command = send_command_motor_1_speed_3
+                elif speed == 4:
+                    command = send_command_motor_1_speed_4
+                elif speed == 5:
+                    command = send_command_motor_1_speed_5
                 print(command_motor_1_speed, speed )
                 apicommand = str(url + command)
                 response = requests.request("POST", apicommand, headers=headers,data=payload)
@@ -345,16 +363,16 @@ class App(customtkinter.CTk):
             elif command_list[x] == command_motor_2_speed:
                 #current_command = command_motor_2_speed
                 speed = int(command_list[x+1])
-                if speed == 100:
-                    command = send_command_motor_2_speed_100
-                elif speed == 150:
-                    command = send_command_motor_2_speed_150
-                elif speed == 200:
-                    command = send_command_motor_2_speed_200
-                elif speed == 250:
-                    command = send_command_motor_2_speed_250
-                elif speed == 300:
-                    command = send_command_motor_2_speed_300
+                if speed == 1:
+                    command = send_command_motor_2_speed_1
+                elif speed == 2:
+                    command = send_command_motor_2_speed_2
+                elif speed == 3:
+                    command = send_command_motor_2_speed_3
+                elif speed == 4:
+                    command = send_command_motor_2_speed_4
+                elif speed == 5:
+                    command = send_command_motor_2_speed_5
                 print(command_motor_2_speed, speed )
                 apicommand = str(url + command)
                 response = requests.request("POST", apicommand, headers=headers,data=payload)
@@ -368,16 +386,16 @@ class App(customtkinter.CTk):
             elif command_list[x] == command_motor_1_2_speed:
                 #current_command = command_motor_1_2_speed
                 speed = int(command_list[x+1])
-                if speed == 100:
-                    command = send_command_motor_1_2_speed_100
-                elif speed == 150:
-                    command = send_command_motor_1_2_speed_150
-                elif speed == 200:
-                    command = send_command_motor_1_2_speed_200
-                elif speed == 250:
-                    command = send_command_motor_1_2_speed_250
-                elif speed == 300:
-                    command = send_command_motor_1_2_speed_300
+                if speed == 1:
+                    command = send_command_motor_1_2_speed_1
+                elif speed == 2:
+                    command = send_command_motor_1_2_speed_2
+                elif speed == 3:
+                    command = send_command_motor_1_2_speed_3
+                elif speed == 4:
+                    command = send_command_motor_1_2_speed_4
+                elif speed == 5:
+                    command = send_command_motor_1_2_speed_5
                 print(command_motor_1_2_speed, speed )
                 apicommand = str(url + command)
                 response = requests.request("POST", apicommand, headers=headers,data=payload)
@@ -415,8 +433,6 @@ class App(customtkinter.CTk):
             else:
                 print("Invalid command")
             
-            html_code = response.text
-
             self.update_outputs(current_command, html_code, delay_remaining)
             x = x + 1
 
@@ -535,19 +551,57 @@ class App(customtkinter.CTk):
 
 
     def update_outputs(self, current_command, html_code, delay_remaining):
-        print(command_str + current_command)
-        print(html_code[132:135])
-        print(html_code[154:157])
-        motor_1_speed = int(html_code[132:135]) 
-        motor_2_speed = int(html_code[154:157]) 
-        self.label_m1_speed.configure(text=motor_1_speed)
-        self.label_m2_speed.configure(text=motor_2_speed)
+        ip_address = "http://" + str(self.ip_address_entry.get())
+        urlend = "/command?a="
+        url = ip_address + urlend
+        command = ""
+        payload = {}
+        headers = {}
+
+        #request motor 1 speed
+        command = send_command_request_motor_1_speed
+        apicommand = str(url + str(command))
+        response = requests.request("POST", apicommand, headers=headers,data=payload)
+        print(apicommand)
+        print(response.text)
+        display_motor_1_speed = response.text
+
+        #request motor 2 speed
+        command = send_command_request_motor_2_speed
+        apicommand = str(url + str(command))
+        response = requests.request("POST", apicommand, headers=headers,data=payload)
+        print(apicommand)
+        print(response.text)
+        display_motor_2_speed = response.text
+
+        #request latitude
+        command = send_command_request_latitude
+        apicommand = str(url + str(command))
+        response = requests.request("POST", apicommand, headers=headers,data=payload)
+        print(apicommand)
+        print(response.text)
+        gps_latitude = response.text
+
+        #request longtitude
+        command = send_command_request_longditude
+        apicommand = str(url + str(command))
+        response = requests.request("POST", apicommand, headers=headers,data=payload)
+        print(apicommand)
+        print(response.text)
+        gps_longitude = response.text
+
+        #request course
+        command = send_command_request_curse
+        apicommand = str(url + str(command))
+        response = requests.request("POST", apicommand, headers=headers,data=payload)
+        print(apicommand)
+        print(response.text)
+        gps_heading = response.text + " deg"
+
+        self.label_m1_speed.configure(text=display_motor_1_speed)
+        self.label_m2_speed.configure(text=display_motor_2_speed)
         self.label_delay_reianing.configure(text=("Command time left: " + str(delay_remaining)))
         self.label_current_command_str.configure(text = (command_str + current_command))
-        
-        gps_latitude = random.randint(0, 1000)
-        gps_longitude = random.randint(0, 1000)
-        gps_heading = str(random.randint(0, 360)) + " deg"
         self.label_gps_latitude.configure(text=gps_latitude)
         self.label_gps_heading.configure(text=gps_heading)
         self.label_gps_longitude.configure(text=gps_longitude)
