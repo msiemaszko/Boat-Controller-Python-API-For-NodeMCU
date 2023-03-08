@@ -1,4 +1,5 @@
 # Boat-Controller-Python-API-For-NodeMCU
+![alt text](https://github.com/ACEengineering/Boat-Controller-Python-API-For-NodeMCU/blob/main/UI_screenshot_01.png?raw=true)
 Project written in Python to send commands to  a NodeMCU microcontroller which will controll dual motor on the boat.
 To be able to run this project you will need to install latest version of Python then install following libraries:
 - customtkinter
