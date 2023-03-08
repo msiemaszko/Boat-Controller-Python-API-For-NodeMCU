@@ -6,7 +6,7 @@ To be able to run this project you will need to install latest version of Python
 
 In the future i will include the code from the NodeMCU that controls the boat.
 
-Version controll:
+Version control:
 - Version 1 completed on 27 February 2023:
         Initial UI without Automatic functionality.
 - Version 2 completed on 01 March 2023:
