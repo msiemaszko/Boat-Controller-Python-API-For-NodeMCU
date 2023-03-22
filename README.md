@@ -13,6 +13,8 @@ Version control:
 - Version 2 completed on 01 March 2023:
         Updated UI with added Output side bar. 
 - Version 3 completed on 03 March 2023:
-        Added autoatic functionality to control dual motors with set of commands
+        Added autoatic functionality to control dual motors with set of commands.
 - Version 4 completed on 08 March 2023:
-        Added updating outputs coming from a webserver
+        Added updating outputs coming from a webserver.
+- Version 5 completed on 22 March 2023:
+        Terms on the UI have been adjusted to the standarised approach of the project.
