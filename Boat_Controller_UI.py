@@ -44,12 +44,12 @@ current_command = ""
 
 label = ""
 command_list = []
-command_forward = "Forward"
-command_reverse = "Reverse"
+command_forward = "Ahaed"
+command_reverse = "Astern"
 command_stop = "Stop"
-command_wait = "Wait"
-command_turn_right = "Turn right"
-command_turn_left = "Turn left"
+command_wait = "Run Time"
+command_turn_right = "Starboard"
+command_turn_left = "Port"
 command_motor_1_speed = "Motor 1 Speed"
 command_motor_2_speed = "Motor 2 Speed"
 command_motor_1_2_speed = "Motor 1&2 Speed"
@@ -150,15 +150,15 @@ class App(customtkinter.CTk):
         self.automatic_label_2.grid(row=2, column=1, columnspan = 3, padx=10, pady=10)
 
         # adding the command buttons
-        self.automatic_button_forward = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Forward", command=self.automatic_command_forward)
+        self.automatic_button_forward = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Ahaed", command=self.automatic_command_forward)
         self.automatic_button_forward.grid(row=3, column=2, padx=10, pady=10)
-        self.automatic_button_left = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Turn Left", command=self.automatic_command_left)
+        self.automatic_button_left = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Port", command=self.automatic_command_left)
         self.automatic_button_left.grid(row=4, column=1, padx=10, pady=10)
         self.automatic_button_stop = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Stop", command=self.automatic_command_stop)
         self.automatic_button_stop.grid(row=4, column=2, padx=10, pady=10)
-        self.automatic_button_right = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Turn Right", command=self.automatic_command_right)
+        self.automatic_button_right = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Starboard", command=self.automatic_command_right)
         self.automatic_button_right.grid(row=4, column=3, padx=10, pady=10)
-        self.automatic_button_reverse = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Reverse", command=self.automatic_command_reverse)
+        self.automatic_button_reverse = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Astern", command=self.automatic_command_reverse)
         self.automatic_button_reverse.grid(row=5, column=2, padx=10, pady=10)
 
         self.automatic_label_3 = customtkinter.CTkLabel(self.mode_tabview.tab("Automatic"), text=("Motor 1 speed set to: " + str(motor_1_speed)))
@@ -182,9 +182,9 @@ class App(customtkinter.CTk):
         self.slider_3 = customtkinter.CTkSlider(self.mode_tabview.tab("Automatic"), from_=1, to=5, number_of_steps=4, command=self.slider_3_command)
         self.slider_3.grid(row=11, column=2, columnspan = 2, padx=(10, 10), pady=(10, 10), sticky="ew")
 
-        self.automatic_wait_button = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Wait XXXX ms", command=self.automatic_command_wait)
+        self.automatic_wait_button = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Run Time (ms)", command=self.automatic_command_wait)
         self.automatic_wait_button.grid(row=12, column=1, padx=10, pady=10)
-        self.automatic_wait_entry = customtkinter.CTkEntry(self.mode_tabview.tab("Automatic"), placeholder_text="milliseconds")
+        self.automatic_wait_entry = customtkinter.CTkEntry(self.mode_tabview.tab("Automatic"), placeholder_text="Run Time (ms)")
         self.automatic_wait_entry.grid(row=12, column=2, padx=10, pady=10)
 
         self.newlist1 = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Clear commands", command=self.newlist)
@@ -494,7 +494,7 @@ class App(customtkinter.CTk):
         else:
             command_list.append(command_wait)
             command_list.append(wait)
-            wait_str = command_wait + " " + str(wait) + " milliseconds"
+            wait_str = command_wait + " " + str(wait) + " (ms)"
             label = customtkinter.CTkLabel(self.scrolable_frame, text = wait_str)
             label.pack()
             print("Command wait added")
