@@ -92,7 +92,7 @@ class App(customtkinter.CTk):
         super().__init__()
 
         # configure window
-        self.title("Boat Controller Python API for ESP8266 Boat Webserver")
+        self.title("Automatic Navigation Tug Tool")
         self.geometry(f"{1180}x{720}")
 
         # configure grid layout (4x4)
@@ -104,7 +104,7 @@ class App(customtkinter.CTk):
         self.sidebar_frame = customtkinter.CTkFrame(self, width=140, corner_radius=0)
         self.sidebar_frame.grid(row=0, column=0, rowspan=14, sticky="nsew")
         self.sidebar_frame.grid_rowconfigure(5, weight=1)
-        self.logo_label = customtkinter.CTkLabel(self.sidebar_frame, text="Boat Controller", font=customtkinter.CTkFont(size=20, weight="bold"))
+        self.logo_label = customtkinter.CTkLabel(self.sidebar_frame, text="Interface:", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.logo_label.grid(row=0, column=0, padx=20, pady=(20, 10))
 
         self.ip_address_label = customtkinter.CTkLabel(self.sidebar_frame, text="IP address:", anchor="w")
@@ -139,7 +139,7 @@ class App(customtkinter.CTk):
         # tabview Automatic
         self.scrolable_frame = customtkinter.CTkScrollableFrame(self.mode_tabview.tab("Automatic"))
         self.scrolable_frame.grid(row=2, rowspan = 14, column=0, padx=20, pady=20, sticky = "nsw")
-        self.automatic_label_1 = customtkinter.CTkLabel(self.mode_tabview.tab("Automatic"), text="Automatic controll", font=customtkinter.CTkFont(size=20, weight="bold"))
+        self.automatic_label_1 = customtkinter.CTkLabel(self.mode_tabview.tab("Automatic"), text="Automatic Navigation", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.automatic_label_1.grid(row=0, column=0, columnspan = 4, padx=10, pady=10, sticky = "we")
         self.run_program_button = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Run program", fg_color= "Green", command=self.run_program)
         self.run_program_button.grid(row=1, column=0, padx=10, pady=10)
