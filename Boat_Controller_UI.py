@@ -36,7 +36,7 @@ gps_latitude = "0.00000"
 gps_latitude_str = "Latitude: "
 gps_longitude = "0.00000"
 gps_longitude_str = "Longitude: "
-gps_heading_str = "Course: "
+gps_heading_str = "Course Over Ground: "
 gps_heading = "0 deg"
 
 command_str = "Command: "
