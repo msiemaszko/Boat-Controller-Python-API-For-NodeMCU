@@ -1,7 +1,7 @@
 #Boat Controller User Interface for University Project that will fnd application in automation of a boat control via following API.
 #This project was write by Filip Zdebel @ www.ACEEngineering.uk with use of examples from Github in customtkinter library.
-#Code Version: Version 4 of the API 
-#Version Date: 08 March 2023
+#Code Version: Version 6 of the API 
+#Version Date: 12 April 2023
 
 import customtkinter
 import time
@@ -42,6 +42,7 @@ gps_heading = "0 deg"
 command_str = "Command: "
 current_command = ""
 
+out_data = ""
 label = ""
 command_list = []
 command_forward = "Ahaed"
@@ -144,7 +145,11 @@ class App(customtkinter.CTk):
         self.run_program_button = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Run program", fg_color= "Green", command=self.run_program)
         self.run_program_button.grid(row=1, column=0, padx=10, pady=10)
         self.stop_program_button = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Stop program", fg_color= "Red", command=self.stop_program)
-        self.stop_program_button.grid(row=1, column=3, padx=10, pady=10)
+        self.stop_program_button.grid(row=1, column=1, padx=10, pady=10)
+        self.read_program_button = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Read program", fg_color= "Orange", command=self.read_program)
+        self.read_program_button.grid(row=1, column=2, padx=10, pady=10)
+        self.write_program_button = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Write program", fg_color= "Orange", command=self.write_program)
+        self.write_program_button.grid(row=1, column=3, padx=10, pady=10)
 
         self.automatic_label_2 = customtkinter.CTkLabel(self.mode_tabview.tab("Automatic"), text="Add automatic commands", font=customtkinter.CTkFont(size=20, weight="bold"))
         self.automatic_label_2.grid(row=2, column=1, columnspan = 3, padx=10, pady=10)
@@ -278,8 +283,6 @@ class App(customtkinter.CTk):
         return(ip_address)
 
     def run_program(self):
-        #self.destroy()
-        #self.__init__()
         ip_address = "http://" + str(self.ip_address_entry.get())
         urlend = "/command?a="
         url = ip_address + urlend
@@ -303,11 +306,9 @@ class App(customtkinter.CTk):
         print("")
         print("Executing commands...")
         number_commands = len(command_list)
-        while x < number_commands:
+        while x < number_commands and force_stop_program != 1:
             y = 0
-            if force_stop_program == 1:
-                x = number_commands
-            elif command_list[x] == command_forward:
+            if command_list[x] == command_forward:
                 current_command = command_forward
                 last_move_command = send_command_forward
                 print("Moving forward")
@@ -329,14 +330,15 @@ class App(customtkinter.CTk):
                 delay_ms = int(command_list[x+1])
                 print("Waiting", delay_ms , "milliseconds.")
                 x = x + 1
-                refresh_rate = delay*10
-                while y < refresh_rate:
-                    if force_stop_program == 1:
-                        y = refresh_rate
+                refresh_rate = delay * 2
+                while y < refresh_rate and force_stop_program != 1:
                     time.sleep(0.1)
                     y = y + 1
-                    delay_remaining = delay_ms - (y * 100)
-                    self.update_outputs(current_command, html_code, delay_remaining)
+                    delay_remaining = delay_ms - (y * 500)
+                    print("running time left: ",  delay_remaining)
+                    print("stop program = ", force_stop_program)
+                    if delay_remaining != 0:
+                        self.update_outputs(current_command, html_code, delay_remaining)
                 delay_remaining = 0
             elif command_list[x] == command_motor_1_speed:
                 #current_command = command_motor_1_speed
@@ -434,6 +436,7 @@ class App(customtkinter.CTk):
             else:
                 print("Invalid command")
             
+            print("stop program = ", force_stop_program)
             self.update_outputs(current_command, html_code, delay_remaining)
             x = x + 1
 
@@ -451,6 +454,137 @@ class App(customtkinter.CTk):
         global force_stop_program
         force_stop_program = 1
         print("Program stopped")
+
+    def read_program(self):
+        global command_list
+        read_list = []
+        read_command = open('commands.txt', 'r')
+        # reading the file
+        data = read_command.read()
+        read_list = data.replace('\n', '').split(",")
+        print(command_list)
+        print(read_list)
+        for a in read_list:
+            command_list.append(a)
+        print(command_list)
+        print("This programm will execute a list of command that came from text file.")
+        print("the list of commands is a follows: ", command_list)
+        read_command.close()
+
+        delay = 0
+        speed = 0
+        x = 0
+
+        number_commands = len(read_list)
+        if number_commands > 0:
+            while x < number_commands:
+                if read_list[x] == command_forward:
+                    out_data = str(read_list[x] + "\n")
+                    label = customtkinter.CTkLabel(self.scrolable_frame, text = out_data)
+                    label.pack()
+                elif read_list[x] == command_reverse:
+                    out_data = str(read_list[x] + "\n")
+                    label = customtkinter.CTkLabel(self.scrolable_frame, text = out_data)
+                    label.pack()
+                elif read_list[x] == command_wait:
+                    out_data = str(read_list[x] + " " + str(read_list[x+1]) + " (ms)" + "\n")
+                    label = customtkinter.CTkLabel(self.scrolable_frame, text = out_data)
+                    label.pack()
+                    x = x + 1
+                elif read_list[x] == command_motor_1_speed:
+                    out_data = str(read_list[x] + " " + str(read_list[x+1]) + "\n")
+                    label = customtkinter.CTkLabel(self.scrolable_frame, text = out_data)
+                    label.pack()
+                    x = x + 1
+                elif read_list[x] == command_motor_2_speed:
+                    out_data = str(read_list[x] + " " + str(read_list[x+1]) + "\n")
+                    label = customtkinter.CTkLabel(self.scrolable_frame, text = out_data)
+                    label.pack()
+                    x = x + 1
+                elif read_list[x] == command_motor_1_2_speed:
+                    out_data = str(read_list[x] + " " + str(read_list[x+1]) + "\n")
+                    label = customtkinter.CTkLabel(self.scrolable_frame, text = out_data)
+                    label.pack()
+                    x = x + 1
+                elif read_list[x] == command_turn_right:
+                    out_data = str(read_list[x] +  "\n")
+                    label = customtkinter.CTkLabel(self.scrolable_frame, text = out_data)
+                    label.pack()
+                elif read_list[x] == command_turn_left:
+                    out_data = str(read_list[x] +  "\n")
+                    label = customtkinter.CTkLabel(self.scrolable_frame, text = out_data)
+                    label.pack()
+                elif read_list[x] == command_stop:
+                    out_data = str(read_list[x] +  "\n")
+                    label = customtkinter.CTkLabel(self.scrolable_frame, text = out_data)
+                    label.pack()
+                x = x + 1
+        else:
+            print("File has no commands.")
+        print("")
+        print("end of commands")
+        
+
+    def write_program(self):
+        write_command = open('commands.txt', 'w')
+        delay = 0
+        speed = 0
+        x = 0
+
+        number_commands = len(command_list)
+        while x < number_commands:
+            if command_list[x] == command_forward:
+                print("Moving forward")
+                out_data = str(command_list[x] + "," + "\n")
+                write_command.write(out_data)
+            elif command_list[x] == command_reverse:
+                print("Reversing")
+                out_data = str(command_list[x] + "," + "\n")
+                write_command.write(out_data)
+            elif command_list[x] == command_wait:
+                delay = int(command_list[x+1])
+                print("Waiting", delay , "seconds.")
+                out_data = str(command_list[x] + "," + str(command_list[x+1])+ "," + "\n")
+                write_command.write(out_data)
+                x = x + 1
+            elif command_list[x] == command_motor_1_speed:
+                speed = int(command_list[x+1])
+                print("Speed set to:", speed )
+                out_data = str(command_list[x] + "," + str(command_list[x+1])+ "," + "\n")
+                write_command.write(out_data)
+                x = x + 1
+            elif command_list[x] == command_motor_2_speed:
+                speed = int(command_list[x+1])
+                print("Speed set to:", speed )
+                out_data = str(command_list[x] + "," + str(command_list[x+1])+ "," + "\n")
+                write_command.write(out_data)
+                x = x + 1
+            elif command_list[x] == command_motor_1_2_speed:
+                speed = int(command_list[x+1])
+                print("Speed set to:", speed )
+                out_data = str(command_list[x] + "," + str(command_list[x+1])+ "," + "\n")
+                write_command.write(out_data)
+                x = x + 1
+            elif command_list[x] == command_turn_right:
+                print("Turning right")
+                out_data = str(command_list[x] + "," + "\n")
+                write_command.write(out_data)
+            elif command_list[x] == command_turn_left:
+                print("Turning left")
+                out_data = str(command_list[x] + "," + "\n")
+                write_command.write(out_data)
+            elif command_list[x] == command_stop:
+                if x+1 <= number_commands:
+                    print("Stopping")
+                    out_data = str(command_list[x] + "," + "\n")
+                    write_command.write(out_data)
+                else:
+                    out_data = str(command_list[x] + "\n")
+                    write_command.write(out_data)
+            x = x + 1
+        print("")
+        print("end of commands")
+        write_command.close()
 
     def automatic_command_forward(self):
         command_list.append(command_forward)
@@ -499,8 +633,6 @@ class App(customtkinter.CTk):
             label.pack()
             print("Command wait added")
             print(command_list)
-
-
 
     def automatic_command_motor_1_speed(self):
         motor_1_speed = int(self.slider_1.get())
@@ -606,6 +738,7 @@ class App(customtkinter.CTk):
         self.label_gps_latitude.configure(text=gps_latitude)
         self.label_gps_heading.configure(text=gps_heading)
         self.label_gps_longitude.configure(text=gps_longitude)
+        self.stop_program_button .configure(command=self.stop_program)
 
         self.update()
 
