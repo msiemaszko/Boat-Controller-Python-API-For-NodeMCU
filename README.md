@@ -18,3 +18,5 @@ Version control:
         Added updating outputs coming from a webserver.
 - Version 5 completed on 22 March 2023:
         Terms on the UI have been adjusted to the standarised approach of the project.
+- Version 6 completed on 12 April 2023:
+        Read and Write program functions have been added, this will allow user to export and import commands from and to the list.
