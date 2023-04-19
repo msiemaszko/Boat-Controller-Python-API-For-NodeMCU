@@ -45,7 +45,7 @@ current_command = ""
 out_data = ""
 label = ""
 command_list = []
-command_forward = "Ahaed"
+command_forward = "Ahead"
 command_reverse = "Astern"
 command_stop = "Stop"
 command_wait = "Run Time"
@@ -155,7 +155,7 @@ class App(customtkinter.CTk):
         self.automatic_label_2.grid(row=2, column=1, columnspan = 3, padx=10, pady=10)
 
         # adding the command buttons
-        self.automatic_button_forward = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Ahaed", command=self.automatic_command_forward)
+        self.automatic_button_forward = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Ahead", command=self.automatic_command_forward)
         self.automatic_button_forward.grid(row=3, column=2, padx=10, pady=10)
         self.automatic_button_left = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Port", command=self.automatic_command_left)
         self.automatic_button_left.grid(row=4, column=1, padx=10, pady=10)
