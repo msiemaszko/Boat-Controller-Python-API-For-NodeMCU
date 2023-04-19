@@ -1,7 +1,7 @@
 #Boat Controller User Interface for University Project that will fnd application in automation of a boat control via following API.
 #This project was write by Filip Zdebel @ www.ACEEngineering.uk with use of examples from Github in customtkinter library.
-#Code Version: Version 6 of the API 
-#Version Date: 12 April 2023
+#Code Version: Version 7 of the API 
+#Version Date: 19 April 2023
 
 import customtkinter
 import time
