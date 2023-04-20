@@ -1,11 +1,12 @@
 #Boat Controller User Interface for University Project that will fnd application in automation of a boat control via following API.
 #This project was write by Filip Zdebel @ www.ACEEngineering.uk with use of examples from Github in customtkinter library.
-#Code Version: Version 7 of the API 
+#Code Version: Version 7 of the API
 #Version Date: 19 April 2023
 
 import customtkinter
 import time
 import requests
+import json
 
 customtkinter.set_appearance_mode("Dark")  # Modes: "System" (standard), "Dark", "Light"
 customtkinter.set_default_color_theme("blue")  # Themes: "blue" (standard), "green", "dark-blue"
@@ -114,12 +115,12 @@ class App(customtkinter.CTk):
         self.ip_address_entry.grid(row=3, column=0, padx=20, pady=10)
         self.connect_button = customtkinter.CTkButton(self.sidebar_frame, text="Connect", fg_color= "grey", command=self.connect)
         self.connect_button.grid(row=4, column=0, padx=20, pady=10)
-        
+
         self.appearance_mode_label = customtkinter.CTkLabel(self.sidebar_frame, text="Appearance Mode:", anchor="w")
         self.appearance_mode_label.grid(row=6, column=0, padx=20, pady=(10, 0))
         self.appearance_mode_optionemenu = customtkinter.CTkOptionMenu(self.sidebar_frame, values=["Dark", "Light", "System"], command=self.change_appearance_mode_event)
         self.appearance_mode_optionemenu.grid(row=7, column=0, padx=20, pady=(10, 10))
-       
+
         self.scaling_label = customtkinter.CTkLabel(self.sidebar_frame, text="UI Scaling:", anchor="w")
         self.scaling_label.grid(row=8, column=0, padx=20, pady=(10, 0))
         self.scaling_optionemenu = customtkinter.CTkOptionMenu(self.sidebar_frame, values=["100%", "110%", "120%", "130%", "140%", "150%"],command=self.change_scaling_event)
@@ -172,7 +173,7 @@ class App(customtkinter.CTk):
         self.automatic_button_motor_1_speed.grid(row=7, column=1, padx=10, pady=10)
         self.slider_1 = customtkinter.CTkSlider(self.mode_tabview.tab("Automatic"), from_=1, to=5, number_of_steps=4, command=self.slider_1_command)
         self.slider_1.grid(row=7, column=2, columnspan = 2, padx=(10, 10), pady=(10, 10), sticky="ew")
-        
+
         self.automatic_label_4 = customtkinter.CTkLabel(self.mode_tabview.tab("Automatic"), text=("Motor 2 speed set to: " + str(motor_2_speed)))
         self.automatic_label_4.grid(row=8, column=2, columnspan = 2, padx=10, pady=0)
         self.automatic_button_motor_2_speed = customtkinter.CTkButton(self.mode_tabview.tab("Automatic"), text="Motor 2 speed", command=self.automatic_command_motor_2_speed)
@@ -435,7 +436,7 @@ class App(customtkinter.CTk):
                 print(apicommand)
             else:
                 print("Invalid command")
-            
+
             print("stop program = ", force_stop_program)
             self.update_outputs(current_command, html_code, delay_remaining)
             x = x + 1
@@ -446,7 +447,7 @@ class App(customtkinter.CTk):
             apicommand = str(url + command)
             response = requests.request("POST", apicommand, headers=headers,data=payload)
             print(apicommand)
-        
+
         print("")
         print("end of commands")
 
@@ -523,7 +524,7 @@ class App(customtkinter.CTk):
             print("File has no commands.")
         print("")
         print("end of commands")
-        
+
 
     def write_program(self):
         write_command = open('commands.txt', 'w')
