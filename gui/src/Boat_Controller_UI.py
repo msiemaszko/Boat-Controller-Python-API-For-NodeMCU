@@ -78,17 +78,6 @@ send_command_motor_1_2_speed_3 = "22"
 send_command_motor_1_2_speed_4 = "23"
 send_command_motor_1_2_speed_5 = "24"
 
-send_command_request_motor_1_speed = "28"
-send_command_request_motor_2_speed = "29"
-
-send_command_request_latitude = "30"
-send_command_request_longditude = "31"
-send_command_request_speed = "32"
-send_command_request_curse = "33"
-send_command_request_no_of_satelites = "34"
-send_command_request_gps_date = "35"
-send_command_request_gps_time = "36"
-
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
@@ -685,62 +674,24 @@ class App(customtkinter.CTk):
 
 
     def update_outputs(self, current_command, html_code, delay_remaining):
-        ip_address = "http://" + str(self.ip_address_entry.get())
-        urlend = "/command?a="
-        url = ip_address + urlend
-        command = ""
+        endpoint = "/info"
+        url = "http://" + str(self.ip_address_entry.get()) + endpoint
         payload = {}
         headers = {}
 
-        #request motor 1 speed
-        command = send_command_request_motor_1_speed
-        apicommand = str(url + str(command))
-        response = requests.request("POST", apicommand, headers=headers,data=payload)
-        print(apicommand)
-        print(response.text)
-        display_motor_1_speed = response.text
+        response = requests.request("GET", url, headers=headers, data=payload)
+        # response = '{"gps_lat": "15.0074", "gps_lon": "83.0087", "gps_course": "15 deg", "motor_1_speed": "1", "motor_2_speed": "2"}' # demo
+        data = json.loads(response)
 
-        #request motor 2 speed
-        command = send_command_request_motor_2_speed
-        apicommand = str(url + str(command))
-        response = requests.request("POST", apicommand, headers=headers,data=payload)
-        print(apicommand)
-        print(response.text)
-        display_motor_2_speed = response.text
+        self.label_m1_speed.configure(text=data['motor_1_speed'])
+        self.label_m2_speed.configure(text=data['motor_2_speed'])
+        self.label_gps_latitude.configure(text=data['gps_lat'])
+        self.label_gps_longitude.configure(text=data['gps_lon'])
+        self.label_gps_heading.configure(text=data['gps_course'])
 
-        #request latitude
-        command = send_command_request_latitude
-        apicommand = str(url + str(command))
-        response = requests.request("POST", apicommand, headers=headers,data=payload)
-        print(apicommand)
-        print(response.text)
-        gps_latitude = response.text
-
-        #request longtitude
-        command = send_command_request_longditude
-        apicommand = str(url + str(command))
-        response = requests.request("POST", apicommand, headers=headers,data=payload)
-        print(apicommand)
-        print(response.text)
-        gps_longitude = response.text
-
-        #request course
-        command = send_command_request_curse
-        apicommand = str(url + str(command))
-        response = requests.request("POST", apicommand, headers=headers,data=payload)
-        print(apicommand)
-        print(response.text)
-        gps_heading = response.text + " deg"
-
-        self.label_m1_speed.configure(text=display_motor_1_speed)
-        self.label_m2_speed.configure(text=display_motor_2_speed)
         self.label_delay_reianing.configure(text=("Command time left: " + str(delay_remaining)))
         self.label_current_command_str.configure(text = (command_str + current_command))
-        self.label_gps_latitude.configure(text=gps_latitude)
-        self.label_gps_heading.configure(text=gps_heading)
-        self.label_gps_longitude.configure(text=gps_longitude)
         self.stop_program_button .configure(command=self.stop_program)
-
         self.update()
 
     def newlist(self):

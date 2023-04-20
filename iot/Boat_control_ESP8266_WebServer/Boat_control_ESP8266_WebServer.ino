@@ -72,110 +72,77 @@ void handleBoat()
 
     switch (BtnValue)
     {
-    case 2: // forward
-        motorSpeed(Set_Motor_A_Speed, HIGH, Set_Motor_B_Speed, HIGH);
-        break;
-    case 4: // turn left
-        motorSpeed(Set_Motor_A_Speed, LOW, Set_Motor_B_Speed, HIGH);
-        break;
-    case 5: // stop
-        motorSpeed(Set_Motor_A_Speed - Set_Motor_A_Speed, LOW, Set_Motor_B_Speed - Set_Motor_B_Speed, LOW);
-        break;
-    case 6: //   turn right
-        motorSpeed(Set_Motor_A_Speed, HIGH, Set_Motor_B_Speed, LOW);
-        break;
-    case 8: // reverse
-        motorSpeed(Set_Motor_A_Speed, LOW, Set_Motor_B_Speed, LOW);
-        break;
-    case 10: // Set_Motor_A_Speed = 1
-        Set_Motor_A_Speed = a1;
-        break;
-    case 11: // Set_Motor_A_Speed = 2
-        Set_Motor_A_Speed = a2;
-        break;
-    case 12: // Set_Motor_A_Speed = 3
-        Set_Motor_A_Speed = a3;
-        break;
-    case 13: // Set_Motor_A_Speed = 4
-        Set_Motor_A_Speed = a4;
-        break;
-    case 14: // Set_Motor_A_Speed = 5
-        Set_Motor_A_Speed = a5;
-        break;
-    case 15: // comment
-        Set_Motor_B_Speed = b1;
-        break;
-    case 16: // comment
-        Set_Motor_B_Speed = b2;
-        break;
-    case 17: // comment
-        Set_Motor_B_Speed = b3;
-        break;
-    case 18: // comment
-        Set_Motor_B_Speed = b4;
-        break;
-    case 19: // comment
-        Set_Motor_B_Speed = b5;
-        break;
-    case 20: // comment
-        Set_Motor_A_Speed = a1;
-        Set_Motor_B_Speed = b1;
-        break;
-    case 21: // comment
-        Set_Motor_A_Speed = a2;
-        Set_Motor_B_Speed = b2;
-        break;
-    case 22: // comment
-        Set_Motor_A_Speed = a3;
-        Set_Motor_B_Speed = b3;
-        break;
-    case 23: // comment
-        Set_Motor_A_Speed = a4;
-        Set_Motor_B_Speed = b4;
-        break;
-    case 24: // comment
-        Set_Motor_A_Speed = a5;
-        Set_Motor_B_Speed = b5;
-        break;
-    case 28: // request motor 1 speed
-        message += Set_Motor_A_Speed;
-        server.send(200, "text/html", message);
-        break;
-    case 29: // request motor 2 speed
-        message += Set_Motor_B_Speed;
-        server.send(200, "text/html", message);
-        break;
-    case 30: // request gps latitude
-        message += "0.00000";
-        server.send(200, "text/html", message);
-        break;
-    case 31: // request gps longditude
-        message += "0.00000";
-        server.send(200, "text/html", message);
-        break;
-    case 32: // request gps speed
-        message += "0.0 knots";
-        server.send(200, "text/html", message);
-        break;
-    case 33: // request gps course
-        message += "0.00N";
-        server.send(200, "text/html", message);
-        break;
-    case 34: // request gps no of satelies
-        message += "1";
-        server.send(200, "text/html", message);
-        break;
-    case 35: // request gps date
-        message += "2023 April 14";
-        server.send(200, "text/html", message);
-        break;
-    case 36: // request gps time
-        message += "12:34";
-        server.send(200, "text/html", message);
-    default:
-        break;
+        case 2: // forward
+            motorSpeed(Set_Motor_A_Speed, HIGH, Set_Motor_B_Speed, HIGH);
+            break;
+        case 4: // turn left
+            motorSpeed(Set_Motor_A_Speed, LOW, Set_Motor_B_Speed, HIGH);
+            break;
+        case 5: // stop
+            motorSpeed(Set_Motor_A_Speed - Set_Motor_A_Speed, LOW, Set_Motor_B_Speed - Set_Motor_B_Speed, LOW);
+            break;
+        case 6: //   turn right
+            motorSpeed(Set_Motor_A_Speed, HIGH, Set_Motor_B_Speed, LOW);
+            break;
+        case 8: // reverse
+            motorSpeed(Set_Motor_A_Speed, LOW, Set_Motor_B_Speed, LOW);
+            break;
+        case 10: // Set_Motor_A_Speed = 1
+            Set_Motor_A_Speed = a1;
+            break;
+        case 11: // Set_Motor_A_Speed = 2
+            Set_Motor_A_Speed = a2;
+            break;
+        case 12: // Set_Motor_A_Speed = 3
+            Set_Motor_A_Speed = a3;
+            break;
+        case 13: // Set_Motor_A_Speed = 4
+            Set_Motor_A_Speed = a4;
+            break;
+        case 14: // Set_Motor_A_Speed = 5
+            Set_Motor_A_Speed = a5;
+            break;
+        case 15: // comment
+            Set_Motor_B_Speed = b1;
+            break;
+        case 16: // comment
+            Set_Motor_B_Speed = b2;
+            break;
+        case 17: // comment
+            Set_Motor_B_Speed = b3;
+            break;
+        case 18: // comment
+            Set_Motor_B_Speed = b4;
+            break;
+        case 19: // comment
+            Set_Motor_B_Speed = b5;
+            break;
+        case 20: // comment
+            Set_Motor_A_Speed = a1;
+            Set_Motor_B_Speed = b1;
+            break;
+        case 21: // comment
+            Set_Motor_A_Speed = a2;
+            Set_Motor_B_Speed = b2;
+            break;
+        case 22: // comment
+            Set_Motor_A_Speed = a3;
+            Set_Motor_B_Speed = b3;
+            break;
+        case 23: // comment
+            Set_Motor_A_Speed = a4;
+            Set_Motor_B_Speed = b4;
+            break;
+        case 24: // comment
+            Set_Motor_A_Speed = a5;
+            Set_Motor_B_Speed = b5;
+            break;
+
+        default:
+            break;
     }
 
+    // ??
     message += "<html><head><title>Dual Motor Boat Controller</title><head>";
     message += "<body><h1>Dual Motor Boat Controller</h1>";
     message += "<table> ";
@@ -191,9 +158,9 @@ void handleBoat()
     server.send(200, "text/html", message);
 }
 
-void tempSinyal()
-{
-}
+// void tempSinyal()
+// {
+// }
 
 void handleNotFound()
 {
@@ -212,9 +179,25 @@ void handleNotFound()
     server.send(404, "text/plain", message);
 }
 
+void getInfo()
+{
+    DynamicJsonDocument doc(1024);
+    doc["motor_1_speed"] = Set_Motor_A_Speed;
+    doc["motor_2_speed"] = Set_Motor_B_Speed;
+    doc["gps_lat"] = "0.00000";
+    doc["gps_lon"] = "0.00000";
+    doc["gps_course"] = "0.00N";
+    // doc["gps_speed"] = "0.0 knots";
+    // doc["gps_sat_no"] = "1";
+    // doc["cur_date"] = "2023 April 14";
+    // doc["cur_time"] = "12:34";
+
+    serializeJson(doc, serial);
+    server.send(200, "text/json", serial)
+}
+
 void setup()
 {
-
     pinMode(Motor_A_Direcion, OUTPUT);
     pinMode(Motor_B_Direcion, OUTPUT);
 
@@ -229,8 +212,7 @@ void setup()
     WiFi.mode(WIFI_STA);
     WiFi.begin(ssid, password);
     Serial.println("");
-    while (WiFi.status() != WL_CONNECTED)
-    {
+    while (WiFi.status() != WL_CONNECTED) {
         delay(500);
         Serial.print(".");
     }
@@ -240,11 +222,16 @@ void setup()
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());
 
+
+    // routes
     server.on("/", handleRoot);
     server.on("/command", handleBoat);
 
-    server.on("/inline", []()
-              { server.send(200, "text/plain", "Server is online"); });
+    server.on("/status", []() {
+        server.send(200, "text/plain", "Server is online");
+    });
+
+    server.on('/info', HTTP_GET, getInfo);
 
     server.onNotFound(handleNotFound);
 
